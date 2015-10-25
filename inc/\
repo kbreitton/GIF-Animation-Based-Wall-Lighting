@@ -1,0 +1,106 @@
+#include <iostream>
+#include "LPD8806.h"
+
+const uint16_t numLEDs = 12;
+LPD8806 strip(numLEDs);
+uint8_t r;
+uint8_t g;
+uint8_t b;
+
+void initLEDs() {
+  strip.begin();
+  
+  r = 0;
+  g = 0; 
+  b = 0;
+
+  //Initialize empty strip
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+  }
+  strip.show();
+
+}
+
+void displayRed() {
+  r = 256;
+  g = 0;
+  b = 0;
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+  }
+  strip.show();
+}
+
+void displayGreen() {
+  r = 0;
+  g = 256;
+  b = 0;
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+  }
+  strip.show();
+
+}
+
+void displayBlue() {
+  r = 0;
+  g = 0;
+  b = 256;
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+  }
+  strip.show();
+}
+
+void displaySequentialRed() {
+  r = 256;
+  g = 0;
+  b = 0;
+
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+    strip.show()
+    // wait //
+  }
+}
+
+void displayTurqoise() {
+  
+}
+
+
+/* Usage: ./testLPD8806 (testFuncName) */
+int main(int argc, char** argv) {
+  if (argc != 1) {
+    std::cout << "Usage: ./testLPD8806 (testFuncName)" << "\n" 
+              << "Test Functions:" << "\n";
+              << "  displayRed" << "\n";
+              << "  displayGreen" << "\n";
+              << "  displayBlue" << "\n";
+              << "  displaySequentialRed" << "\n";
+              << "  displayTurqoise" << "\n";
+  } else {
+    initLEDs();
+
+    switch(argv[1]) {
+      case "displayRed":
+        displayRed();
+        break;
+      case "displayGreen":
+        displayGreen();
+        break;
+      case "displayBlue":
+        displayBlue();
+        break;
+      case "displaySequentialRed":
+        displaySequentialRed();
+        break;
+      case "displayTurqoise":
+        displayTurqoise();
+        break;
+    }
+  }
+  
+  return 0;
+}
