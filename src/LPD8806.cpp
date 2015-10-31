@@ -1,4 +1,4 @@
-#include "LPD8806.h"
+#include "LPD8806.hpp"
 
 LPD8806::LPD8806(uint16_t n) {
 // Allocate 3 bytes per pixel:
@@ -12,7 +12,16 @@ LPD8806::LPD8806(uint16_t n) {
 }
 
 LPD8806::~LPD8806() {
-  writezeros(numLEDs);
+  r = 0;
+  g = 0;
+  b = 0;
+ 
+  for(int i=0; i<numLEDs; i++){
+    strip.setPixelColor(i,r,g,b);
+  }
+
+  strip.show();  
+  
   delete [] pixels; 
 }
 

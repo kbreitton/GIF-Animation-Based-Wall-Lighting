@@ -28,7 +28,8 @@ void printUsage() {
               << "  displayGreen" << "\n"
               << "  displayBlue" << "\n"
               << "  displaySequentialRed" << "\n"
-              << "  displayTurqoise" << "\n";
+              << "  displayPurple" << "\n";
+              << "  cycleLEDs" << "\n";
 }
 
 void displayRed() {

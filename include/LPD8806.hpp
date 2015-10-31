@@ -1,5 +1,3 @@
-#pragma once
-
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 #include <cstdint>
@@ -25,6 +23,8 @@ public:
   uint32_t Color(uint8_t, uint8_t, uint8_t);
 
 private:
+  LPD8806(const LPD8806& other);
+  LPD8806& operator=(const LPD8806& other);
   void begin(void);
   uint8_t  *pixels;     // Holds LED color values
   uint16_t numLEDs;     // Number of RGB LEDs in strand
