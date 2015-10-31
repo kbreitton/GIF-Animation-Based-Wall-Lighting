@@ -28,9 +28,11 @@ int main(int argc, char** argv) {
   //}
   /*cout << endl;*/
   
-  GridLED grid(12);
+  uint16_t numLEDs = 12; 
+  GridLED grid(numLEDs);
   vectorBGR.resize(36); //for 12 LEDs
-  GridLED.show(vectorBGR);
+  std::vector<uint8_t> &vectorRef = vectorBGR;
+  grid.show(vectorRef);
   
   cout << "Press ENTER to finish" << endl;
   cin.ignore();

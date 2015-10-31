@@ -10,19 +10,22 @@ TARGETS = testLPD8806 testImageProcessor
 
 all: $(TARGETS)
 
-testImageProcessor: testImageProcessor.o ImageProcessor.o
-	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
+testImageProcessor: testImageProcessor.o ImageProcessor.o GridLED.o LPD8806.o
+	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
 
 testLPD8806: testLPD8806.o LPD8806.o
 	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI) 
 
 
 
-ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/ImageProcessor.hpp 
+ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/ImageProcessor.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
 
-testImageProcessor.o: testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp 
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
+testImageProcessor.o: testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp GridLED.o 
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
+
+GridLED.o: $(SDIR)/GridLED.cpp $(IDIR)/GridLED.hpp LPD8806.o
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 LPD8806.o: $(SDIR)/LPD8806.cpp $(IDIR)/LPD8806.hpp 
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)

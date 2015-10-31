@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "LPD8806.h"
+#include "LPD8806.hpp"
 
 const uint16_t numLEDs = 12;
 LPD8806 strip(numLEDs);
@@ -28,7 +28,7 @@ void printUsage() {
               << "  displayGreen" << "\n"
               << "  displayBlue" << "\n"
               << "  displaySequentialRed" << "\n"
-              << "  displayPurple" << "\n";
+              << "  displayPurple" << "\n"
               << "  cycleLEDs" << "\n";
 }
 
@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
 
   std::cout << "\n" << "Press ENTER to Finish" << "\n";
   std::cin.ignore();
-  turnOff();
+  //turnOff();
   return 0;
   }
 }
