@@ -1,11 +1,13 @@
 #include "GridLED.hpp"
 
-GridLED::GridLED(uint16_t numLEDs) {
+GridLED::GridLED(uint16_t numLEDs, uint8_t cols, uint8_t rows) {
+  _cols = cols;
+  _rows = rows;
   _numLEDs = numLEDs;
+  assert(_cols*_rows == _numLEDs);
   strip = std::unique_ptr<LPD8806> (new LPD8806(_numLEDs));
 }
 
-GridLED::~GridLED() {}
 
 /*GridLED::GridLED(const GridLED& other) {*/
   //if (this.strip != other.strip) {

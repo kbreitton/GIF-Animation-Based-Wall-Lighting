@@ -1,3 +1,5 @@
+#pragma once
+
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 #include <cstdint>
