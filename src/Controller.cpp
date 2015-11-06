@@ -34,9 +34,10 @@ cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
 
   uint8_t* bytes = new uint8_t[width*height*3];
   magickImage.write(0,0, width, height, "BGR", MagickCore::CharPixel, bytes);
-  Mat image = cv::Mat(sizeof(bytes), 1, CV_8U, bytes).clone();
-  image = image.reshape(0, height);
-
+  //Mat image = Mat(sizeof(bytes), 1, CV_8U, bytes).clone();
+  //image = image.reshape(0, height);
+  Mat image = Mat(1, height*width*3, CV_8U, bytes);
+  
   delete [] bytes;
   return image;
 }

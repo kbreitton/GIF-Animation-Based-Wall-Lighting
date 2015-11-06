@@ -7,10 +7,12 @@ int main(int argc, char** argv) {
   }
   Controller controller(12, 12, 1);
   controller.setDuration(5000);
+  controller.readGIF(argv[1]);
   controller.show();
   
-  cout << "Press ENTER to finish" << endl;
-  cin.ignore();
+  using namespace std;
+  /* cout << "Press ENTER to finish" << endl;
+  cin.ignore(); */
 
   return 0;
 }

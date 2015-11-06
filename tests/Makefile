@@ -12,36 +12,37 @@ TARGETS = testLPD8806 testImageProcessor testController
 
 all: $(TARGETS)
 
-testImageProcessor: ImageProcessor.o GridLED.o testImageProcessor.o 
-	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS)
+testImageProcessor: ImageProcessor.o GridLED.o LPD8806.o testImageProcessor.o 
+	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
 
-testLPD8806: LPD8806.o testLPD8806.o
-	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS)
+testLPD8806: testLPD8806.o LPD8806.o
+	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI) 
 
-testController: Controller.o testController.o
-	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) 
+testController: ImageProcessor.o GridLED.o LPD8806.o Controller.o testController.o 
+	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
+
 
 
 ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/ImageProcessor.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
 
 testImageProcessor.o: testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp $(IDIR)/GridLED.hpp 
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) 
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
 
 GridLED.o: $(SDIR)/GridLED.cpp $(IDIR)/GridLED.hpp $(IDIR)/LPD8806.hpp
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) 
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 LPD8806.o: $(SDIR)/LPD8806.cpp $(IDIR)/LPD8806.hpp 
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 testLPD8806.o: testLPD8806.cpp $(IDIR)/LPD8806.hpp 
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS)
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 Controller.o: $(SDIR)/Controller.cpp $(IDIR)/ImageProcessor.hpp $(IDIR)/GridLED.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) 
 
-testImageProcessor.o: testImageProcessor.cpp $(IDIR)/Controller.hpp
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS)
+testController.o: testController.cpp $(IDIR)/Controller.hpp 
+	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK)
 
 
 .PHONY: clean
