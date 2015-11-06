@@ -12,15 +12,15 @@ LPD8806::LPD8806(uint16_t n) {
 }
 
 LPD8806::~LPD8806() {
-  r = 0;
-  g = 0;
-  b = 0;
+  uint8_t r = 0;
+  uint8_t g = 0;
+  uint8_t b = 0;
  
   for(int i=0; i<numLEDs; i++){
-    strip.setPixelColor(i,r,g,b);
+    setPixelColor(i,r,g,b);
   }
 
-  strip.show();  
+  show();  
   
   delete [] pixels; 
 }

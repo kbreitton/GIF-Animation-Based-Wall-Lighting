@@ -1,3 +1,6 @@
 # vim buffer stuff #
 *.swo
 *.swp
+
+# object files #
+*.o

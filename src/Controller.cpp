@@ -12,21 +12,21 @@ void Controller::readGIF(char* imageGIF) {
   using namespace std;
   using namespace cv;
 
-  imageGIFasList.clear();
+  imgGIFasList.clear();
   list<Image> magickImageList;
   readImages( &magickImageList, imageGIF);
 
   for (auto it = magickImageList.begin(); it != magickImageList.end(); it++) {
     Mat imageMat = magick2Mat(*it);
-    imageGIFasList.push_back(imageMat);
+    imgGIFasList.push_back(imageMat);
   }
 }
 
-void Controller::setDuration(unsigned int duration_ms) {
-  _duration_ms = duration_ms;
+void Controller::setDuration(unsigned int display_duration_ms) {
+  _display_duration_ms = display_duration_ms;
 }
 
-cv::Mat Controller::magick2Mat(Magick::Image magickImage) {
+cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
   using namespace cv;
 
   int width= magickImage.size().width();
@@ -43,12 +43,12 @@ cv::Mat Controller::magick2Mat(Magick::Image magickImage) {
 
 void Controller::show(void) {
   using namespace std;
-  vector<uint8_t>& vectorBuff;
+  vector<uint8_t> vec;
 
   for (auto it = imgGIFasList.begin(); it != imgGIFasList.end(); it++) {
-    imgProc.readImage(*it);
-    vectorBuff = imgProc.convertToBGRVector();
-    grid->show(vectorBuff);
+    imgProc->readImage(*it);
+    vec = imgProc->convertToBGRVector();
+    grid->show(vec);
     delay(fps_in_ms); 
   }
 

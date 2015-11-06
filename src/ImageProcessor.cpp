@@ -2,12 +2,12 @@
 
 ImageProcessor::ImageProcessor() {}
 
-std::unique_ptr< std::vector<uint8_t> > ImageProcessor::convertToBGRVector(void) {
+std::vector<uint8_t> ImageProcessor::convertToBGRVector(void) {
   using namespace std;
-  unique_ptr< vector<uint8_t> > vec_ptr(new vector<uint8_t>);
-  vec_ptr->assign(image.datastart, image.dataend);
+  vector<uint8_t> vec;
+  vec.assign(image.datastart, image.dataend);
 
-  return vec_ptr;
+  return vec;
 }
 
 cv::Mat ImageProcessor::getImage(void) {

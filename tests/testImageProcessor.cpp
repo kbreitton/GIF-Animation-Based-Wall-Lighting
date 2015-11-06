@@ -7,11 +7,12 @@ int main(int argc, char** argv) {
     return -1;
   }
 
-  ImageProcessor imgProc(argv[1]);
+  ImageProcessor imgProc;
+  imgProc.readImage(argv[1]);
 
   using namespace std;
   using namespace cv;
-  Mat im = imgProc.image;
+  Mat im = imgProc.getImage();
   cout << im << endl << endl;
   cout << endl;
   Point3_<uchar>* p = im.ptr<Point3_<uchar> >(1,1);
@@ -21,7 +22,7 @@ int main(int argc, char** argv) {
   p = im.ptr<Point3_<uchar> >(1,7);
   cout << "Red: " << p << endl << endl;
 
-  std::vector<uint8_t> vectorBGR = imgProc.convertToBGRVector();
+  vector<uint8_t> vectorBGR = imgProc.convertToBGRVector();
 
 /*  for (auto i: vectorBGR) {*/
     //cout << i << ' ';
@@ -29,12 +30,12 @@ int main(int argc, char** argv) {
   /*cout << endl;*/
   
   uint16_t numLEDs = 12; 
-  GridLED grid(numLEDs);
+  GridLED grid(numLEDs, 12, 1);
   vectorBGR.resize(36); //for 12 LEDs
-  std::vector<uint8_t> &vectorRef = vectorBGR;
-  grid.show(vectorRef);
+  grid.show(vectorBGR);
   
   cout << "Press ENTER to finish" << endl;
   cin.ignore();
+
   return 0;
 }
