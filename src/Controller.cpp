@@ -17,7 +17,7 @@ void Controller::readGIF(char* imageGIF) {
   readImages( &magickImageList, imageGIF);
 
   for (auto it = magickImageList.begin(); it != magickImageList.end(); it++) {
-    Mat imageMat = magick2Mat(*it);
+    Mat imageMat = magick2Mat(*it).clone();
     imgGIFasList.push_back(imageMat);
   }
 }
@@ -53,5 +53,5 @@ void Controller::show(void) {
     delay(fps_in_ms); 
   }
 
-  grid->clearLEDs();
+  //grid->clearLEDs();
 }
