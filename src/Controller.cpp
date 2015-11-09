@@ -22,10 +22,6 @@ void Controller::readGIF(char* imageGIF) {
   }
 }
 
-void Controller::setDuration(unsigned int display_duration_ms) {
-  _display_duration_ms = display_duration_ms;
-}
-
 cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
   using namespace cv;
 
@@ -42,15 +38,21 @@ cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
   return image;
 }
 
-void Controller::show(void) {
+void Controller::show(unsigned int duration_ms) {
   using namespace std;
   vector<uint8_t> vec;
-
-  for (auto it = imgGIFasList.begin(); it != imgGIFasList.end(); it++) {
-    imgProc->readImage(*it);
-    vec = imgProc->convertToBGRVector();
-    grid->show(vec);
-    delay(fps_in_ms); 
+  
+  unsigned int startTime = millis();
+  while(millis() - startTime < duration_ms) {
+    for (auto it = imgGIFasList.begin(); it != imgGIFasList.end(); it++) {
+      if (millis() - startTime > duration_ms) {
+        break;
+      }
+      imgProc->readImage(*it);
+      vec = imgProc->convertToBGRVector();
+      grid->show(vec);
+      delay(fps_in_ms); 
+    }
   }
 
   //grid->clearLEDs();

@@ -48,4 +48,4 @@ testController.o: testController.cpp $(IDIR)/Controller.hpp
 .PHONY: clean
 
 clean:
-	rm -f *.o
+	rm -f *.o $(TARGETS) 
