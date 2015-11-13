@@ -1,11 +1,13 @@
 #include "Controller.hpp"
 
 
-Controller::Controller(uint16_t numLEDs, uint8_t grid_cols, uint8_t grid_rows) {
-  using namespace std;
-  grid = unique_ptr<GridLED> (new GridLED(numLEDs, grid_cols, grid_rows));
-  imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
-}
+//Controller::Controller(uint16_t numLEDs, uint8_t grid_cols, uint8_t grid_rows) {
+  //using namespace std;
+  //grid = unique_ptr<GridLED> (new GridLED(numLEDs, grid_cols, grid_rows));
+  //imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
+/*}*/
+
+Controller::Controller() {}
 
 void Controller::readGIF(char* imageGIF) {
   using namespace Magick;
@@ -49,6 +51,8 @@ void Controller::show(unsigned int duration_ms) {
         break;
       }
       imgProc->readImage(*it);
+      imgProc->reconfigureImage(cols_panels, rows_panels, 
+                                cols_leds_per_panel, rows_leds_per_panel);
       vec = imgProc->convertToBGRVector();
       grid->show(vec);
       delay(fps_in_ms); 

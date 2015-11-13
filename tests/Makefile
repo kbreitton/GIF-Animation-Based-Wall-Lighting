@@ -12,8 +12,8 @@ TARGETS = testLPD8806 testImageProcessor testController
 
 all: $(TARGETS)
 
-testImageProcessor: ImageProcessor.o GridLED.o LPD8806.o testImageProcessor.o 
-	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
+testImageProcessor: ImageProcessor.o testImageProcessor.o 
+	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
 
 testLPD8806: testLPD8806.o LPD8806.o
 	g++ -o $@ $^ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI) 
@@ -26,7 +26,7 @@ testController: ImageProcessor.o GridLED.o LPD8806.o Controller.o testController
 ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/ImageProcessor.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
 
-testImageProcessor.o: testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp $(IDIR)/GridLED.hpp 
+testImageProcessor.o: testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp 
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
 
 GridLED.o: $(SDIR)/GridLED.cpp $(IDIR)/GridLED.hpp $(IDIR)/LPD8806.hpp
