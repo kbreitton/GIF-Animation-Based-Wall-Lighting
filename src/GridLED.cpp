@@ -4,7 +4,7 @@ GridLED::GridLED(uint16_t numLEDs_total, uint8_t cols_total, uint8_t rows_total)
   _cols_total = cols_total;
   _rows_total = rows_total;
   _numLEDs_total = numLEDs_total;
-  assert(_cols*_rows == _numLEDs);
+  assert(_cols_total*_rows_total == _numLEDs_total);
   strip = std::unique_ptr<LPD8806> (new LPD8806(_numLEDs_total));
 }
 
@@ -55,7 +55,7 @@ void GridLED::clearLEDs(void) {
   uint8_t g = 0;
   uint8_t b = 0;
 
-  for(int i=0; i<_numLEDs; i++){
+  for(int i=0; i<_numLEDs_total; i++){
     strip->setPixelColor(i,r,g,b);
   }
 

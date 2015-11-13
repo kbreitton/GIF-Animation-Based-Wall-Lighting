@@ -1,13 +1,21 @@
 #include "Controller.hpp"
+#include <sstream>
 
 int main(int argc, char** argv) {
-  if ( argc != 2 ) {
-    printf("usage: testController <Image_Path>\n");
+  if ( argc != 3 ) {
+    printf("usage: testController <Image_Path> <duration_ms> \n");
     return -1;
   }
-  Controller controller(12, 12, 1);
+  
+  using namespace std;
+  
+  Controller controller;
   controller.readGIF(argv[1]);
-  controller.show(5000);
+
+  stringstream s(argv[2]);
+  unsigned int duration_ms;
+  s >> duration_ms;
+  controller.show(duration_ms);
   
   using namespace std;
   /* cout << "Press ENTER to finish" << endl;

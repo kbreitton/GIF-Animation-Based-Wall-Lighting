@@ -1,13 +1,13 @@
 #include "Controller.hpp"
 
 
-//Controller::Controller(uint16_t numLEDs, uint8_t grid_cols, uint8_t grid_rows) {
-  //using namespace std;
-  //grid = unique_ptr<GridLED> (new GridLED(numLEDs, grid_cols, grid_rows));
-  //imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
-/*}*/
+Controller::Controller() {
+  using namespace std;
+  grid = unique_ptr<GridLED> (new GridLED(numLEDs_total, cols_total, rows_total));
+  imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
+}
 
-Controller::Controller() {}
+//Controller::Controller() {}
 
 void Controller::readGIF(char* imageGIF) {
   using namespace Magick;
@@ -34,7 +34,7 @@ cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
   magickImage.write(0,0, width, height, "BGR", MagickCore::CharPixel, bytes);
   //Mat image = Mat(sizeof(bytes), 1, CV_8U, bytes).clone();
   //image = image.reshape(0, height);
-  Mat image = Mat(1, height*width*3, CV_8U, bytes);
+  Mat image = Mat(height, width, CV_8UC3, bytes);
   
   delete [] bytes;
   return image;
