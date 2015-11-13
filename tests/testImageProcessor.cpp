@@ -25,11 +25,11 @@ int main(int argc, char** argv) {
   }
   cout << endl;
 
-  Mat im2 = imgProc.reshapeImage(3, 3, 2, 3); 
-  imwrite("../testReshapeImage2_Result.tif", im2);
+  imgProc.reconfigureImage(3, 3, 2, 3); 
+  imwrite("../bin/testReshapeImage2_Result.tif", imgProc.getImage());
    
-  cout << "Press ENTER to finish" << endl;
-  cin.ignore();
+  //cout << "Press ENTER to finish" << endl;
+  /*cin.ignore();*/
 
   return 0;
 }
