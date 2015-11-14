@@ -19,7 +19,7 @@ void Controller::readGIF(char* imageGIF) {
   readImages( &magickImageList, imageGIF);
 
   for (auto it = magickImageList.begin(); it != magickImageList.end(); it++) {
-    Mat imageMat = magick2Mat(*it).clone();
+    Mat imageMat = magick2Mat(*it);
     imgGIFasList.push_back(imageMat);
   }
 }
@@ -34,7 +34,7 @@ cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
   magickImage.write(0,0, width, height, "BGR", MagickCore::CharPixel, bytes);
   //Mat image = Mat(sizeof(bytes), 1, CV_8U, bytes).clone();
   //image = image.reshape(0, height);
-  Mat image = Mat(height, width, CV_8UC3, bytes);
+  Mat image = Mat(height, width, CV_8UC3, bytes).clone();
   
   delete [] bytes;
   return image;
