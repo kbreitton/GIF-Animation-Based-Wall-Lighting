@@ -11,7 +11,7 @@ private:
   const uint8_t leds_per_panel = 30;
   const uint8_t cols_leds_per_panel = 6;
   const uint8_t rows_leds_per_panel = 5;
-  const uint8_t cols_panels = 1;
+  const uint8_t cols_panels = 2;
   const uint8_t rows_panels = 1;
   const uint8_t cols_total = cols_leds_per_panel * cols_panels;
   const uint8_t rows_total = rows_leds_per_panel * rows_panels;

@@ -1,4 +1,4 @@
-CXXFLAGS = -g -std=c++11
+CXXFLAGS = -g -std=c++11 -fno-exceptions
 CXXFLAGS_CV = `pkg-config --cflags opencv` 
 CXXFLAGS_MAGICK = -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -I/usr/local/include/ImageMagick-6 
 LIBS_CV = `pkg-config --libs opencv`

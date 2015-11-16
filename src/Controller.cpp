@@ -5,6 +5,7 @@ Controller::Controller() {
   using namespace std;
   grid = unique_ptr<GridLED> (new GridLED(numLEDs_total, cols_total, rows_total));
   imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
+  Magick::InitializeMagick(NULL);
 }
 
 //Controller::Controller() {}
