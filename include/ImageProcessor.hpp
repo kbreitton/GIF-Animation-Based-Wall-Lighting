@@ -4,20 +4,28 @@
 #include <vector>
 #include <cstdint>
 #include <cassert>
+#include <algorithm>
 
 class ImageProcessor {
   
 private:  
-  cv::Mat image;
+  cv::Mat _image;
   cv::Mat createImChunk(const cv::Mat& src_vec, uint8_t col_panel_count, uint8_t row_panel_count,
                         uint8_t cols_panels, uint8_t cols_leds_per_panel, 
                         uint8_t rows_leds_per_panel); 
+  
+  const uint8_t _threshold = 50;
+
 public:
   ImageProcessor();
   cv::Mat getImage(void);
   void readImage(char* fileName);
   void readImage(cv::Mat imageMat);
   std::vector<uint8_t> convertToBGRVector(void);
+
+  /* apply a threshold to an input vec such that below the threshold,
+   * values will be set to 0 -- this is for particular LED aesthetics */
+  std::vector<uint8_t>& thresholdVec(std::vector<uint8_t>& input);
 
   
   /* a strip displays pixels left to right, but for a panel format and across LEDs

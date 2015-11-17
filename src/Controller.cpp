@@ -55,6 +55,7 @@ void Controller::show(unsigned int duration_ms) {
       imgProc->reconfigureImage(cols_panels, rows_panels, 
                                 cols_leds_per_panel, rows_leds_per_panel);
       vec = imgProc->convertToBGRVector();
+      vec = imgProc->thresholdVec(vec);
       grid->show(vec);
       delay(fps_in_ms); 
     }
