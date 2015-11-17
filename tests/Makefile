@@ -1,6 +1,6 @@
 CXXFLAGS = -g -std=c++11 -fno-exceptions
 CXXFLAGS_CV = `pkg-config --cflags opencv` 
-CXXFLAGS_MAGICK = -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -I/usr/local/include/ImageMagick-6 
+CXXFLAGS_MAGICK = -fopenmp -DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=16 -I/usr/local/include/ImageMagick-6 
 LIBS_CV = `pkg-config --libs opencv`
 LIBS_WPI = -lwiringPi
 LIBS_MAGICK = -L/usr/local/lib -lMagick++-6.Q16 -lMagickWand-6.Q16 -lMagickCore-6.Q16

@@ -23,12 +23,10 @@ std::vector<uint8_t> ImageProcessor::convertToBGRVector(void) {
 }
 
 std::vector<uint8_t>& ImageProcessor::thresholdVec(std::vector<uint8_t>& input) {
-  auto applyThres = [=](uint8_t pixel_val) -> uint8_t { 
+  auto applyThres = [=](uint8_t& pixel_val) { 
     if (pixel_val < _threshold) {
-      return 0;
-    } else {
-      return pixel_val;
-    }
+      pixel_val = 0;
+    } 
   };
   std::for_each(input.begin(), input.end(), applyThres);
 
