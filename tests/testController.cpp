@@ -1,6 +1,8 @@
 #include "Controller.hpp"
 #include <sstream>
 
+Controller controller;
+
 int main(int argc, char** argv) {
   if ( argc != 3 ) {
     printf("usage: testController <Image_Path> <duration_ms> \n");
@@ -9,7 +11,6 @@ int main(int argc, char** argv) {
   
   using namespace std;
   
-  Controller controller;
   controller.readGIF(argv[1]);
 
   stringstream s(argv[2]);

@@ -38,8 +38,8 @@ void ImageProcessor::reconfigureImage(uint8_t cols_panels,
                                   uint8_t cols_leds_per_panel,
                                   uint8_t rows_leds_per_panel) {
 
-  assert(_image.rows == rows_panels * rows_leds_per_panel);
-  assert(_image.cols == cols_panels * cols_leds_per_panel);
+  //assert(_image.rows == rows_panels * rows_leds_per_panel);
+  //assert(_image.cols == cols_panels * cols_leds_per_panel);
   using namespace std;
   using namespace cv;
   
@@ -73,8 +73,8 @@ cv::Mat ImageProcessor::createImChunk(const cv::Mat& src_vec, uint8_t col_panel_
 
   /* fill in first row of im */
   uint8_t leds_per_panel = cols_leds_per_panel * rows_leds_per_panel;
-  uint8_t startPix = col_panel_count * cols_leds_per_panel + row_panel_count*(leds_per_panel*cols_panels);
-  uint8_t endPix = startPix + cols_leds_per_panel;
+  uint32_t startPix = col_panel_count * cols_leds_per_panel + row_panel_count*(leds_per_panel*cols_panels);
+  uint32_t endPix = startPix + cols_leds_per_panel;
   
   im = src_vec(Range::all(), Range(startPix, endPix));
 
