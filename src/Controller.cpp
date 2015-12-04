@@ -43,7 +43,10 @@ cv::Mat Controller::magick2Mat(Magick::Image& magickImage) {
 
 void Controller::show(unsigned int duration_ms) {
   using namespace std;
+  using namespace cv;
+
   vector<uint8_t> vec;
+  Mat output;
   
   unsigned int startTime = millis();
   while(millis() - startTime < duration_ms) {
@@ -52,9 +55,11 @@ void Controller::show(unsigned int duration_ms) {
         break;
       }
       imgProc->readImage(*it);
+      imgProc->getGestureState();
+      output = imgProc->perspTransIm();
       imgProc->reconfigureImage(cols_panels, rows_panels, 
                                 cols_leds_per_panel, rows_leds_per_panel);
-      vec = imgProc->convertToBGRVector();
+      vec = imgProc->convertToBGRVector(output);
       vec = imgProc->thresholdVec(vec);
       grid->show(vec);
       delay(fps_in_ms); 

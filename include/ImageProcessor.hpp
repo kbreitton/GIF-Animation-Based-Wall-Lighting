@@ -1,10 +1,21 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
+#include "APDS8860_RPi.h"
 #include <vector>
 #include <cstdint>
 #include <cassert>
 #include <algorithm>
+
+#define APDS9960_INT 7
+
+typedef enum gesture_state {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN,
+  DEFAULT
+} GESTURE_STATE;
 
 class ImageProcessor {
   
@@ -14,14 +25,30 @@ private:
                         uint8_t cols_panels, uint8_t cols_leds_per_panel, 
                         uint8_t rows_leds_per_panel); 
   
-  const uint8_t _threshold = 50;
+  const uint8_t _px_threshold = 50;
+
+  GESTURE_STATE _gesture_state = DEFAULT; 
+  
+  cv::Mat _lambda_left_gest;
+  cv::Mat _lambda_right_gest;
+  cv::Mat _lambda_up_gest;
+  cv::Mat _lambda_down_gest;
+
+  APDS9960_RPi adps;
+  int isr_flag = 0;
+
+  void interruptRoutine() {
+    isr_flag = 1;
+  }
+
+  void handleGesture(void);
 
 public:
   ImageProcessor();
   cv::Mat getImage(void);
   void readImage(char* fileName);
   void readImage(cv::Mat imageMat);
-  std::vector<uint8_t> convertToBGRVector(void);
+  std::vector<uint8_t> convertToBGRVector(const cv::Mat& input);
 
   /* apply a threshold to an input vec such that below the threshold,
    * values will be set to 0 -- this is for particular LED aesthetics */
@@ -38,5 +65,8 @@ public:
                     uint8_t cols_leds_per_panel,
                     uint8_t rows_leds_per_panel);
   
-  //plan to add methods like getSensorData() and modifyImage()
+  void getGestureState(void);
+  void determinePerspTransforms(void);
+  cv::Mat perspTransIm(void);
+  
 };
