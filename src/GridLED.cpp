@@ -4,7 +4,7 @@ GridLED::GridLED(uint16_t numLEDs_total, uint8_t cols_total, uint8_t rows_total)
   _cols_total = cols_total;
   _rows_total = rows_total;
   _numLEDs_total = numLEDs_total;
-  assert(_cols_total*_rows_total == _numLEDs_total);
+  //assert(_cols_total*_rows_total == _numLEDs_total);
   strip = std::unique_ptr<LPD8806> (new LPD8806(_numLEDs_total));
 }
 
@@ -26,7 +26,7 @@ GridLED::GridLED(uint16_t numLEDs_total, uint8_t cols_total, uint8_t rows_total)
 /*}*/
 
 void GridLED::setPixels(const std::vector<uint8_t>& inputBGRVector) {
-  assert(inputBGRVector.size() == _numLEDs_total*3);
+  //assert(inputBGRVector.size() == _numLEDs_total*3);
 
   uint8_t b;
   uint8_t g;

@@ -8,11 +8,11 @@
 class Controller {
 
 private:
-  const uint8_t leds_per_panel = 30;
+  const uint8_t leds_per_panel = 36;
   const uint8_t cols_leds_per_panel = 6;
-  const uint8_t rows_leds_per_panel = 5;
-  const uint8_t cols_panels = 2;
-  const uint8_t rows_panels = 1;
+  const uint8_t rows_leds_per_panel = 6;
+  const uint8_t cols_panels = 3;
+  const uint8_t rows_panels = 3;
   const uint8_t cols_total = cols_leds_per_panel * cols_panels;
   const uint8_t rows_total = rows_leds_per_panel * rows_panels;
   const uint16_t numLEDs_total = cols_total * rows_total;
@@ -21,7 +21,8 @@ private:
   //std::unique_ptr<GridLED> grid(numLEDs_total, cols_total, rows_total);
   std::unique_ptr<GridLED> grid;
   std::list<cv::Mat> imgGIFasList;
-  const uint16_t fps_in_ms = 33; //about 30 fps
+
+  const uint16_t fps_in_ms = 25; //about 30 fps
 
   cv::Mat magick2Mat(Magick::Image&);
   
