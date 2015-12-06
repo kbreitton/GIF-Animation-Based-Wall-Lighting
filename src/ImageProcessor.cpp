@@ -1,11 +1,8 @@
 #include "ImageProcessor.hpp"
 
 ImageProcessor::ImageProcessor() {
+  using namespace std;
   determinePerspTransforms();
-  wiringPiSetup();
-  wiringPiISR(APDS9960_INT, INT_EDGE_FALLING,  interruptRoutine);
-  apds.init();
-  apds.enableGestureSensor(true);
 }
 
 cv::Mat ImageProcessor::getImage(void) {
@@ -20,75 +17,23 @@ void ImageProcessor::readImage(cv::Mat imageMat) {
   _image = imageMat;
 }
 
-std::vector<uint8_t> ImageProcessor::convertToBGRVector(const cv::Mat& input) {
+std::vector<uint8_t> ImageProcessor::convertToBGRVector(void) {
   using namespace std;
   vector<uint8_t> vec;
-  vec.assign(input.datastart, input.dataend);
+  vec.assign(_image.datastart, _image.dataend);
 
   return vec;
 }
 
 std::vector<uint8_t>& ImageProcessor::thresholdVec(std::vector<uint8_t>& input) {
   auto applyThres = [=](uint8_t& pixel_val) { 
-    if (pixel_val < _px_threshold) {
+    if (pixel_val < _threshold) {
       pixel_val = 0;
     } 
   };
   std::for_each(input.begin(), input.end(), applyThres);
 
   return input;
-}
-
-void ImageProcessor::getGestureState() {
-  if (isr_flag == 1) {
-    handleGesture();
-    isr_flag = 0;
-  }
-}
-
-void ImageProcessor::handleGesture() {
-  if ( apds.isGestureAvailable() ) {
-    switch ( apds.readGesture() ) {
-      case DIR_UP:
-        cout << "UP" << endl;
-        
-        if (_gesture_state == DEFAULT) {
-          _gesture_state == UP;
-        } else if (_gesture_state == DOWN) {
-          _gesture_state == DEFAULT;
-        } 
-        break;
-      case DIR_DOWN:
-        cout << "DOWN" << endl;
-
-        if (_gesture_state == DEFAULT) {
-          _gesture_state = DOWN;
-        } else if (_gesture_state == UP) {
-          _gesture_state = DEFAULT;
-        }
-        break;
-      case DIR_LEFT:
-        cout << "LEFT" << endl;
-
-        if (_gesture_state == DEFAULT) {
-          _gesture_state = LEFT;
-        } else if (_gesture_state == RIGHT) {
-          _guesture_state = DEFAULT;
-        }
-        break;
-      case DIR_RIGHT:
-        cout << "RIGHT" << endl;
-
-        if (_gesture_state == DEFAULT) {
-          _gesture_state = RIGHT;
-        } else if (_gesture_state = LEFT) {
-          _gesture_state = DEFAULT;
-        }
-        break;
-      default:
-        cout << "NONE" << endl;
-    }
-  }
 }
 
 void ImageProcessor::determinePerspTransforms() {
@@ -142,10 +87,10 @@ void ImageProcessor::determinePerspTransforms() {
   _lambda_down_gest = getPerspectiveTransform(downGestQuad, defaultQuad);
 }
 
-cv::Mat ImageProcessor::perspTransIm() {
+cv::Mat ImageProcessor::perspTransIm(GESTURE_STATE gesture_state) {
   using namespace cv;
   Mat output;
-  switch(_gesture_state) {
+  switch(gesture_state) {
     case LEFT: 
       warpPerspective(_image, output, _lambda_left_gest, _image.size());
       break;
@@ -161,13 +106,14 @@ cv::Mat ImageProcessor::perspTransIm() {
     default:
       break;
   }
-   return output;
+  return output;
 }
 
+
 void ImageProcessor::reconfigureImage(uint8_t cols_panels,
-                                      uint8_t rows_panels,
-                                      uint8_t cols_leds_per_panel,
-                                      uint8_t rows_leds_per_panel) {
+                                  uint8_t rows_panels,
+                                  uint8_t cols_leds_per_panel,
+                                  uint8_t rows_leds_per_panel) {
 
   //assert(_image.rows == rows_panels * rows_leds_per_panel);
   //assert(_image.cols == cols_panels * cols_leds_per_panel);
@@ -182,8 +128,7 @@ void ImageProcessor::reconfigureImage(uint8_t cols_panels,
 
   for(int j = 0; j < rows_panels; j++) {
     for(int i = 0; i < cols_panels; i++) {
-      Mat chunk = createImChunk(image_vec, i, j, cols_panels, 
-                                cols_leds_per_panel, rows_leds_per_panel);
+      Mat chunk = createImChunk(image_vec, i, j, cols_panels, cols_leds_per_panel, rows_leds_per_panel);
       chunks.push_back(chunk);
     }
   }
@@ -197,19 +142,15 @@ void ImageProcessor::reconfigureImage(uint8_t cols_panels,
 
 }
 
-cv::Mat ImageProcessor::createImChunk(const cv::Mat& src_vec, 
-                                      uint8_t col_panel_count, 
-                                      uint8_t row_panel_count,
-                                      uint8_t cols_panels, 
-                                      uint8_t cols_leds_per_panel, 
-                                      uint8_t rows_leds_per_panel) {
+cv::Mat ImageProcessor::createImChunk(const cv::Mat& src_vec, uint8_t col_panel_count, uint8_t row_panel_count,
+                                  uint8_t cols_panels, uint8_t cols_leds_per_panel, 
+                                  uint8_t rows_leds_per_panel) {
   using namespace cv;
   Mat im;
 
   /* fill in first row of im */
   uint8_t leds_per_panel = cols_leds_per_panel * rows_leds_per_panel;
-  uint32_t startPix = col_panel_count * cols_leds_per_panel + 
-                      row_panel_count * (leds_per_panel*cols_panels);
+  uint32_t startPix = col_panel_count * cols_leds_per_panel + row_panel_count*(leds_per_panel*cols_panels);
   uint32_t endPix = startPix + cols_leds_per_panel;
   
   im = src_vec(Range::all(), Range(startPix, endPix));

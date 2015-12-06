@@ -1,9 +1,11 @@
 #include "ImageProcessor.hpp"
 #include "GridLED.hpp"
-#include <list>
+#include "SensorHandler.hpp"
 #include <Magick++.h>
 #include <memory>
 #include <cassert>
+#include <list>
+#include <csignal>
 
 class Controller {
 
@@ -20,11 +22,14 @@ private:
   std::unique_ptr<ImageProcessor> imgProc;
   //std::unique_ptr<GridLED> grid(numLEDs_total, cols_total, rows_total);
   std::unique_ptr<GridLED> grid;
+  std::unique_ptr<SensorHandler> gestureSensor;
   std::list<cv::Mat> imgGIFasList;
 
   const uint16_t fps_in_ms = 25; //about 30 fps
 
   cv::Mat magick2Mat(Magick::Image&);
+
+  void sigint_handler(int x);
   
 public:
   //Controller(uint16_t numLEDs, uint8_t grid_cols, uint8_t grid_rows);
