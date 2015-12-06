@@ -20,8 +20,8 @@ private:
   
   GESTURE_STATE _gesture_state;
   
-  int isr_flag = 0;
-  void interruptRoutine();
+  static int isr_flag;
+  static void interruptRoutine();
   void handleGesture();
 
   APDS9960_RPi apds;

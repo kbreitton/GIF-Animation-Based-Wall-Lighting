@@ -28,7 +28,7 @@ public:
   cv::Mat getImage(void);
   void readImage(char* fileName);
   void readImage(cv::Mat imageMat);
-  std::vector<uint8_t> convertToBGRVector(void);
+  std::vector<uint8_t> convertToBGRVector(const cv::Mat& input);
 
   /* apply a threshold to an input vec such that below the threshold,
    * values will be set to 0 -- this is for particular LED aesthetics */
@@ -40,7 +40,8 @@ public:
    *
    * this assumes panels are assembed left to right then top to bottom,
    * and that the "last" pixel within one panel is at its bottom right */
-  void reconfigureImage(uint8_t cols_panels,
+  cv::Mat reconfigureImage(const cv::Mat& input,
+                    uint8_t cols_panels,
                     uint8_t rows_panels,
                     uint8_t cols_leds_per_panel,
                     uint8_t rows_leds_per_panel);

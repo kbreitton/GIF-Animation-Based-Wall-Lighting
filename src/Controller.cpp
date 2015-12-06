@@ -7,14 +7,14 @@ Controller::Controller() {
   imgProc = unique_ptr<ImageProcessor> (new ImageProcessor());
   gestureSensor = unique_ptr<SensorHandler> (new SensorHandler());
   Magick::InitializeMagick(NULL);
-  signal(SIGINT, sigint_handler);
+//  signal(SIGINT, sigint_handler);
 }
 
 //Controller::Controller() {}
 //
-void sigint_handler(int x) {
-  grid->clearLEDs();
-}
+//void sigint_handler(int x) {
+//  grid->clearLEDs();
+//}
 
 void Controller::readGIF(char* imageGIF) {
   using namespace Magick;
@@ -67,7 +67,7 @@ void Controller::show(unsigned int duration_ms) {
       }
       imgProc->readImage(*it);
       output = imgProc->perspTransIm( gestureSensor->getGestureState() );
-      imgProc->reconfigureImage(cols_panels, rows_panels, 
+      output = imgProc->reconfigureImage(output, cols_panels, rows_panels, 
                                 cols_leds_per_panel, rows_leds_per_panel);
       vec = imgProc->convertToBGRVector(output);
       vec = imgProc->thresholdVec(vec);

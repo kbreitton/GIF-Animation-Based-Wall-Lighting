@@ -12,7 +12,7 @@ BIN_DIR=./bin
 APDS9960_DIR=./apds-9960-raspberry-pi-library
 
 
-TARGETS = testLPD8806 testImageProcessor playGIF GestureTest 
+TARGETS = testLPD8806 playGIF GestureTest #testImageProcessor 
 
 all: $(TARGETS)
 
@@ -23,18 +23,18 @@ testImageProcessor: $(OBJ_DIR)/ImageProcessor.o $(OBJ_DIR)/testImageProcessor.o
 testLPD8806: $(OBJ_DIR)/LPD8806.o $(OBJ_DIR)/testLPD8806.o 
 	g++ -o $(BIN_DIR)/$@ $^ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI) 
 
-playGIF: $(OBJ_DIR)/SensorHandler.o $(OBJ_DIR)/ImageProcessor.o $(OBJ_DIR)/GridLED.o $(OBJ_DIR)/LPD8806.o $(OBJ_DIR)/Controller.o $(OBJ_DIR)/playGIF.o 
-	g++ -o $(BIN_DIR)/$@ $^ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
+playGIF: $(OBJ_DIR)/SensorHandler.o $(OBJ_DIR)/APDS9960_RPi.o $(OBJ_DIR)/ImageProcessor.o $(OBJ_DIR)/GridLED.o $(OBJ_DIR)/LPD8806.o $(OBJ_DIR)/Controller.o $(OBJ_DIR)/playGIF.o 
+	g++ -o $(BIN_DIR)/$@ $^ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) $(CXXFLAGS_CV) $(LIBS_CV) $(LIBS_WPI)
 
 GestureTest: $(OBJ_DIR)/APDS9960_RPi.o $(OBJ_DIR)/GestureTest.o
 	g++ -o $(BIN_DIR)/$@ $^ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 
-$(OBJ_DIR)/ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/ImageProcessor.hpp
+$(OBJ_DIR)/ImageProcessor.o: $(SDIR)/ImageProcessor.cpp $(IDIR)/SensorHandler.hpp $(IDIR)/ImageProcessor.hpp
 	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV)
 
 $(OBJ_DIR)/testImageProcessor.o: $(TEST_DIR)/testImageProcessor.cpp $(IDIR)/ImageProcessor.hpp 
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(CXXFLAGS_CV) $(LIBS_CV) 
 
 $(OBJ_DIR)/GridLED.o: $(SDIR)/GridLED.cpp $(IDIR)/GridLED.hpp $(IDIR)/LPD8806.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
@@ -46,19 +46,19 @@ $(OBJ_DIR)/testLPD8806.o: $(TEST_DIR)/testLPD8806.cpp $(IDIR)/LPD8806.hpp
 	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
 
 $(OBJ_DIR)/SensorHandler.o: $(SDIR)/SensorHandler.cpp $(APDS9960_DIR)/APDS9960_RPi.h
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(LIBS_WPI)
 
 $(OBJ_DIR)/Controller.o: $(SDIR)/Controller.cpp $(IDIR)/SensorHandler.hpp $(IDIR)/ImageProcessor.hpp $(IDIR)/GridLED.hpp
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) 
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK) 
 
 $(OBJ_DIR)/playGIF.o: $(SDIR)/playGIF.cpp $(IDIR)/Controller.hpp 
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK)
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(CXXFLAGS_MAGICK) $(LIBS_MAGICK)
 
 $(OBJ_DIR)/APDS9960_RPi.o: $(APDS9960_DIR)/APDS9960_RPi.cpp $(APDS9960_DIR)/APDS9960_RPi.h
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(LIBS_WPI)
 
 $(OBJ_DIR)/GestureTest.o: $(APDS9960_DIR)/GestureTest.cpp $(APDS9960_DIR)/APDS9960_RPi.h
-	g++ -c $< -o $@ -I$(IDIR) $(CXXFLAGS) $(LIBS_WPI)
+	g++ -c $< -o $@ -I$(IDIR) -I$(APDS9960_DIR) $(CXXFLAGS) $(LIBS_WPI)
 
 
 .PHONY: clean

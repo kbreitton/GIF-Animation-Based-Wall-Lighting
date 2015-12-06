@@ -1,4 +1,7 @@
 #include "SensorHandler.hpp"
+#include <iostream>
+
+int SensorHandler::isr_flag = 0;
 
 SensorHandler::SensorHandler() {
   apds =  APDS9960_RPi();
@@ -22,6 +25,7 @@ void SensorHandler::interruptRoutine() {
 }
 
 void SensorHandler::handleGesture() {
+	using namespace std;
 
 	if ( apds.isGestureAvailable() ) {
 		switch ( apds.readGesture() ) {
@@ -49,7 +53,7 @@ void SensorHandler::handleGesture() {
         if (_gesture_state == DEFAULT) {
           _gesture_state = LEFT;
         } else if (_gesture_state == RIGHT) {
-          _guesture_state = DEFAULT;
+          _gesture_state = DEFAULT;
         }
         break;
       case DIR_RIGHT:

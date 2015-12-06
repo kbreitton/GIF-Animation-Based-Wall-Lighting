@@ -29,7 +29,7 @@ private:
 
   cv::Mat magick2Mat(Magick::Image&);
 
-  void sigint_handler(int x);
+  //void sigint_handler(int x);
   
 public:
   //Controller(uint16_t numLEDs, uint8_t grid_cols, uint8_t grid_rows);

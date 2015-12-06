@@ -17,10 +17,10 @@ void ImageProcessor::readImage(cv::Mat imageMat) {
   _image = imageMat;
 }
 
-std::vector<uint8_t> ImageProcessor::convertToBGRVector(void) {
+std::vector<uint8_t> ImageProcessor::convertToBGRVector(const cv::Mat& input) {
   using namespace std;
   vector<uint8_t> vec;
-  vec.assign(_image.datastart, _image.dataend);
+  vec.assign(input.datastart, input.dataend);
 
   return vec;
 }
@@ -110,7 +110,8 @@ cv::Mat ImageProcessor::perspTransIm(GESTURE_STATE gesture_state) {
 }
 
 
-void ImageProcessor::reconfigureImage(uint8_t cols_panels,
+cv::Mat ImageProcessor::reconfigureImage(const cv::Mat& input,
+                                  uint8_t cols_panels,
                                   uint8_t rows_panels,
                                   uint8_t cols_leds_per_panel,
                                   uint8_t rows_leds_per_panel) {
@@ -123,8 +124,8 @@ void ImageProcessor::reconfigureImage(uint8_t cols_panels,
   vector<Mat> chunks;
 
   /* vectorize image for easier reshaping calculations */
-  uint8_t original_rows = _image.rows;
-  Mat image_vec = _image.reshape(0,1);
+  uint8_t original_rows = input.rows;
+  Mat image_vec = input.reshape(0,1);
 
   for(int j = 0; j < rows_panels; j++) {
     for(int i = 0; i < cols_panels; i++) {
@@ -138,7 +139,7 @@ void ImageProcessor::reconfigureImage(uint8_t cols_panels,
   hconcat(chunks, result);
   result = result.reshape(0,original_rows);
   
-  _image = result;
+  return result;
 
 }
 
