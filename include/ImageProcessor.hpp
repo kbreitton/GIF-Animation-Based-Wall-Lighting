@@ -1,7 +1,7 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
-#include "APDS8860_RPi.h"
+#include "APDS9960_RPi.h"
 #include <vector>
 #include <cstdint>
 #include <cassert>
