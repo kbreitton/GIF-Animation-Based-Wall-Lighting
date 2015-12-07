@@ -64,4 +64,4 @@ $(OBJ_DIR)/GestureTest.o: $(APDS9960_DIR)/GestureTest.cpp $(APDS9960_DIR)/APDS99
 .PHONY: clean
 
 clean:
-	rm -rf $(OBJ_DIR)/ && cd $(BIN_DIR) && rm -f $(TARGETS) 
+	rm -f $(OBJ_DIR)/* && cd $(BIN_DIR) && rm -f $(TARGETS) 

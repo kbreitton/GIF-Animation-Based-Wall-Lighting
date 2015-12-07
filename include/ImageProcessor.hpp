@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SensorHandler.hpp"
+#include "Gesture_State.hpp"
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <cstdint>

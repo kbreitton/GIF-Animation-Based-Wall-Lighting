@@ -1,18 +1,9 @@
 #pragma once
 
 #include "APDS9960_RPi.h"
-
+#include "Gesture_State.hpp"
 
 #define APDS9960_INT 7
-
-typedef enum gesture_state {
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN,
-    DEFAULT
-} GESTURE_STATE;
-
 
 class SensorHandler {
 
