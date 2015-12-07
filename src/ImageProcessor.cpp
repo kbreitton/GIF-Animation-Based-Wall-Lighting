@@ -84,24 +84,30 @@ void ImageProcessor::determinePerspTransforms(const cv::Mat& input) {
   _lambda_down_gest = getPerspectiveTransform(downGestQuad, defaultQuad);
 }
 
-cv::Mat ImageProcessor::perspTransIm(GESTURE_STATE gesture_state) {
+cv::Mat ImageProcessor::perspTransIm(const GESTURE_STATE& gesture_state) {
+  using namespace std;
   using namespace cv;
   Mat output;
   switch(gesture_state) {
     case LEFT: 
+      cout << "LEFT_STATE" << endl;
       warpPerspective(_image, output, _lambda_left_gest, _image.size());
       break;
     case RIGHT:
+      cout << "RIGHT_STATE" << endl;
       warpPerspective(_image, output, _lambda_right_gest, _image.size());
       break;
     case UP:
+      cout << "UP_STATE" << endl;
       warpPerspective(_image, output, _lambda_up_gest, _image.size());
       break;
     case DOWN:
+      cout << "DOWN_STATE" << endl;
       warpPerspective(_image, output, _lambda_down_gest, _image.size());
       break;
     default:
-      break;
+      cout << "DEFAULT_STATE" << endl;
+      return _image;
   }
   return output;
 }

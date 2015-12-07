@@ -19,5 +19,5 @@ private:
 
 public:
   SensorHandler();
-  GESTURE_STATE getGestureState(void);
+  const GESTURE_STATE& getGestureState(void);
 };

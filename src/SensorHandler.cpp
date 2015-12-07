@@ -12,7 +12,7 @@ SensorHandler::SensorHandler() {
   _gesture_state = DEFAULT;
 }
 
-GESTURE_STATE SensorHandler::getGestureState() {
+const GESTURE_STATE& SensorHandler::getGestureState() {
   if (isr_flag == 1) {
     handleGesture();
     isr_flag = 0;
@@ -21,21 +21,21 @@ GESTURE_STATE SensorHandler::getGestureState() {
 }
 
 void SensorHandler::interruptRoutine() {
-	isr_flag = 1;
+  isr_flag = 1;
 }
 
 void SensorHandler::handleGesture() {
-	using namespace std;
+  using namespace std;
 
-	if ( apds.isGestureAvailable() ) {
-		switch ( apds.readGesture() ) {
+  //if ( apds.isGestureAvailable() ) {
+    switch ( apds.readGesture() ) {
       case DIR_UP:
         cout << "UP" << endl;
-        
+
         if (_gesture_state == DEFAULT) {
-          _gesture_state == UP;
+          _gesture_state = UP;
         } else if (_gesture_state == DOWN) {
-          _gesture_state == DEFAULT;
+          _gesture_state = DEFAULT;
         } 
         break;
       case DIR_DOWN:
@@ -61,7 +61,7 @@ void SensorHandler::handleGesture() {
 
         if (_gesture_state == DEFAULT) {
           _gesture_state = RIGHT;
-        } else if (_gesture_state = LEFT) {
+        } else if (_gesture_state == LEFT) {
           _gesture_state = DEFAULT;
         }
         break;
@@ -69,9 +69,9 @@ void SensorHandler::handleGesture() {
         cout << "NONE" << endl;
         break;
     }	
-  }
-	else {
-		cout << "No gesture available" << endl;
-	}
+  //}
+  //else {
+    //cout << "No gesture available" << endl;
+  //}
 }
 

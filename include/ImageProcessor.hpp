@@ -7,6 +7,7 @@
 #include <cassert>
 #include <algorithm>
 #include <memory>
+#include <iostream>
 
 class ImageProcessor {
   
@@ -47,5 +48,5 @@ public:
                     uint8_t rows_leds_per_panel);
 
   void determinePerspTransforms(const cv::Mat& input);
-  cv::Mat perspTransIm(GESTURE_STATE gesture_state);  
+  cv::Mat perspTransIm(const GESTURE_STATE& gesture_state);  
 };

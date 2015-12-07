@@ -1,5 +1,6 @@
 #include "Controller.hpp"
 #include <sstream>
+#include <ctime>
 
 Controller controller;
 
@@ -16,11 +17,23 @@ int main(int argc, char** argv) {
   stringstream s(argv[2]);
   unsigned int duration_ms;
   s >> duration_ms;
-  controller.show(duration_ms);
+  cout << "playing" << endl;
   
+  clock_t start_time = clock();
+ 
+  if (duration_ms <= 0) {
+    controller.show_forever();
+  } else {
+    controller.show(duration_ms);
+  }
+
   using namespace std;
   /* cout << "Press ENTER to finish" << endl;
   cin.ignore(); */
+  
+  clock_t end_time = clock(); 
+  double timeInSec = (end_time - start_time ) / (double) CLOCKS_PER_SEC;
 
+  cout<<"duration: "<< timeInSec << endl;
   return 0;
 }

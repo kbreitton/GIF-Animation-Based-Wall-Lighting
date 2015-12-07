@@ -25,7 +25,7 @@ private:
   std::unique_ptr<SensorHandler> gestureSensor;
   std::list<cv::Mat> imgGIFasList;
 
-  const uint16_t fps_in_ms = 15; //about 30 fps
+  const uint16_t delay_ms = 8; //about 30 fps
 
   cv::Mat magick2Mat(Magick::Image&);
 
@@ -36,4 +36,5 @@ public:
   Controller();
   void readGIF(char* imageGIF);
   void show(unsigned int duration_ms);
+  void show_forever(void);
 };

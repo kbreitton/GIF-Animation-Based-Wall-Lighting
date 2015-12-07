@@ -28,7 +28,7 @@ void Controller::readGIF(char* imageGIF) {
   for (auto it = magickImageList.begin(); it != magickImageList.end(); it++) {
     Mat imageMat = magick2Mat(*it);
     imgGIFasList.push_back(imageMat);
-    if (it == magickImage.begin()) {
+    if (it == magickImageList.begin()) {
       imgProc->determinePerspTransforms(imageMat);
     }
   }
@@ -75,7 +75,31 @@ void Controller::show(unsigned int duration_ms) {
       vec = imgProc->convertToBGRVector(output);
       vec = imgProc->thresholdVec(vec);
       grid->show(vec);
-      delay(fps_in_ms); 
+      delay(delay_ms); 
+    }
+  }
+
+  //grid->clearLEDs();
+}
+
+void Controller::show_forever() {
+  using namespace std;
+  using namespace cv;
+
+  vector<uint8_t> vec;
+  Mat output;
+  
+  while(1){
+    for (auto it = imgGIFasList.begin(); it != imgGIFasList.end(); it++) {
+      
+      imgProc->readImage(*it);
+      output = imgProc->perspTransIm( gestureSensor->getGestureState() );
+      output = imgProc->reconfigureImage(output, cols_panels, rows_panels, 
+                                cols_leds_per_panel, rows_leds_per_panel);
+      vec = imgProc->convertToBGRVector(output);
+      vec = imgProc->thresholdVec(vec);
+      grid->show(vec);
+      delay(delay_ms); 
     }
   }
 
