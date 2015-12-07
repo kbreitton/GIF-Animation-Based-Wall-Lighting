@@ -1,9 +1,6 @@
 #include "ImageProcessor.hpp"
 
-ImageProcessor::ImageProcessor() {
-  using namespace std;
-  determinePerspTransforms();
-}
+ImageProcessor::ImageProcessor() {}
 
 cv::Mat ImageProcessor::getImage(void) {
   return _image;
@@ -36,50 +33,50 @@ std::vector<uint8_t>& ImageProcessor::thresholdVec(std::vector<uint8_t>& input) 
   return input;
 }
 
-void ImageProcessor::determinePerspTransforms() {
+void ImageProcessor::determinePerspTransforms(const cv::Mat& input) {
   using namespace cv;
   
   _lambda_left_gest = Mat(2, 4, CV_32FC1);
-  _lambda_left_gest = Mat::zeros( _image.rows, _image.cols, _image.type() );
+  _lambda_left_gest = Mat::zeros( input.rows, input.cols, input.type() );
  
   _lambda_right_gest = Mat(2, 4, CV_32FC1);
-  _lambda_right_gest = Mat::zeros( _image.rows, _image.cols, _image.type() );
+  _lambda_right_gest = Mat::zeros( input.rows, input.cols, input.type() );
   
   _lambda_up_gest = Mat(2, 4, CV_32FC1);
-  _lambda_up_gest = Mat::zeros( _image.rows, _image.cols, _image.type() );
+  _lambda_up_gest = Mat::zeros( input.rows, input.cols, input.type() );
   
   _lambda_down_gest = Mat(2, 4, CV_32FC1);
-  _lambda_down_gest = Mat::zeros( _image.rows, _image.cols, _image.type() );
+  _lambda_down_gest = Mat::zeros( input.rows, input.cols, input.type() );
   
   Point2f defaultQuad[4];
   defaultQuad[0] = Point2f( 0,0 );
-  defaultQuad[1] = Point2f( _image.cols-1,0);
-  defaultQuad[2] = Point2f( _image.cols-1,_image.rows-1);
-  defaultQuad[3] = Point2f( 0,_image.rows-1  );
+  defaultQuad[1] = Point2f( input.cols-1,0);
+  defaultQuad[2] = Point2f( input.cols-1,input.rows-1);
+  defaultQuad[3] = Point2f( 0,input.rows-1  );
 
   Point2f leftGestQuad[4];
-  leftGestQuad[0] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows * -0.30f) );
-  leftGestQuad[1] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows * -0.15f) );
-  leftGestQuad[2] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows *  1.15f) );
-  leftGestQuad[3] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows *  1.30f) );
+  leftGestQuad[0] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows * -0.30f) );
+  leftGestQuad[1] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows * -0.15f) );
+  leftGestQuad[2] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows *  1.15f) );
+  leftGestQuad[3] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows *  1.30f) );
 
   Point2f rightGestQuad[4];
-  rightGestQuad[0] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows * -0.15f) );
-  rightGestQuad[1] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows * -0.30f) );
-  rightGestQuad[2] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows *  1.30f) );
-  rightGestQuad[3] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows *  1.15f) );
+  rightGestQuad[0] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows * -0.15f) );
+  rightGestQuad[1] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows * -0.30f) );
+  rightGestQuad[2] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows *  1.30f) );
+  rightGestQuad[3] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows *  1.15f) );
 
   Point2f upGestQuad[4];
-  upGestQuad[0] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows * -0.30f) );
-  upGestQuad[1] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows * -0.15f) );
-  upGestQuad[2] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows *  1.15f) );
-  upGestQuad[3] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows *  1.30f) );
+  upGestQuad[0] = Point2f( (int) (input.cols * -0.30f) , (int) (input.rows * -0.15f) );
+  upGestQuad[1] = Point2f( (int) (input.cols *  1.30f) , (int) (input.rows * -0.15f) );
+  upGestQuad[2] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows *  1.15f) );
+  upGestQuad[3] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows *  1.15f) );
  
   Point2f downGestQuad[4];
-  downGestQuad[0] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows * -0.30f) );
-  downGestQuad[1] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows * -0.15f) );
-  downGestQuad[2] = Point2f( (int) (_image.cols *  1.15f) , (int) (_image.rows *  1.15f) );
-  downGestQuad[3] = Point2f( (int) (_image.cols * -0.15f) , (int) (_image.rows *  1.30f) );
+  downGestQuad[0] = Point2f( (int) (input.cols * -0.15f) , (int) (input.rows * -0.15f) );
+  downGestQuad[1] = Point2f( (int) (input.cols *  1.15f) , (int) (input.rows * -0.15f) );
+  downGestQuad[2] = Point2f( (int) (input.cols *  1.30f) , (int) (input.rows *  1.15f) );
+  downGestQuad[3] = Point2f( (int) (input.cols * -0.30f) , (int) (input.rows *  1.15f) );
  
   _lambda_left_gest = getPerspectiveTransform(leftGestQuad, defaultQuad);
   _lambda_right_gest = getPerspectiveTransform(rightGestQuad, defaultQuad);

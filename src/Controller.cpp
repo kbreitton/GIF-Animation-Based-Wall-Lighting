@@ -28,6 +28,9 @@ void Controller::readGIF(char* imageGIF) {
   for (auto it = magickImageList.begin(); it != magickImageList.end(); it++) {
     Mat imageMat = magick2Mat(*it);
     imgGIFasList.push_back(imageMat);
+    if (it == magickImage.begin()) {
+      imgProc->determinePerspTransforms(imageMat);
+    }
   }
 }
 

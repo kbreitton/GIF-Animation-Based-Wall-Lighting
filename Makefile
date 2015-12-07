@@ -12,7 +12,7 @@ BIN_DIR=./bin
 APDS9960_DIR=./apds-9960-raspberry-pi-library
 
 
-TARGETS = testLPD8806 playGIF GestureTest #testImageProcessor 
+TARGETS = testLPD8806 playGIF GestureTest testImageProcessor 
 
 all: $(TARGETS)
 

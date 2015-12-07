@@ -46,6 +46,6 @@ public:
                     uint8_t cols_leds_per_panel,
                     uint8_t rows_leds_per_panel);
 
-  void determinePerspTransforms(void);
+  void determinePerspTransforms(const cv::Mat& input);
   cv::Mat perspTransIm(GESTURE_STATE gesture_state);  
 };
