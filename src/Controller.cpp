@@ -99,7 +99,7 @@ void Controller::show_forever() {
       vec = imgProc->convertToBGRVector(output);
       vec = imgProc->thresholdVec(vec);
       grid->show(vec);
-      delay(delay_ms); 
+      //delay(delay_ms); 
     }
   }
 
