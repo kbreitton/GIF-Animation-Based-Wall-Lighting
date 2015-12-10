@@ -1,0 +1,23 @@
+<head>
+  <title>xLAB lights</title>
+</head>
+
+<body>
+  <h1>Play a GIF</h1>
+  
+  {{> uploadImTemplate}}
+  {{> playGifTemplate}}
+</body>
+
+<template name="uploadImTemplate">
+  <form action="">
+    <input type="file" id = "imgFile" accept="image/*">
+  </form>
+</template>
+
+<template name="playGifTemplate">
+  <form class="durationInput">
+    <input type="text" id = "durationText" placeholder="Duration to play in ms" />
+  </form>
+  <button>Play!</button>
+</template>
