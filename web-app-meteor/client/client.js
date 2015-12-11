@@ -5,9 +5,9 @@ Template.playGifTemplate.events( {
     var files = document.getElementById("imgFile").files;
     Images.insert(files[0], function (err, fileObj) { //only accept one image
       // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP  
-      var filePath = imagesPath + "/" + fileObj.collectionName + 
+      var fileName = fileObj.collectionName + 
                      "-" + fileObj._id + "-" + fileObj.name();
-      Meteor.call('playGIF', filePath, duration_ms);
+      Meteor.call('playGIF', fileName, duration_ms);
     });
 
   }

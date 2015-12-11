@@ -1,11 +1,20 @@
-var spawn = Npm.require('child_process').spawn;
+var exec = Npm.require('child_process').exec;
 //FS.debug = true;
+//var sudo = Npm.require('sudo');
+var projPath = "/home/pi/ESE-519-Project/bin"
 
 Meteor.methods({
-  'playGIF': function(filePath, duration_ms) {
-  spawn('playGIF', [filePath, duration_ms]);
-  /*console.log(filePath);*/
-  /*console.log(duration_ms);*/
+  'playGIF': function(fileName, duration_ms) {
+  var imgPath = projPath + "/images/" + fileName;
+  var execPath = projPath + "/playGIF";
+  var command = execPath + " " + imgPath + " " + duration_ms
+  exec(command,  function(error, stdout, stderr) {
+    //console.log("stdout: " + stdout);
+    //console.log("stderr: " + stderr);
+    if(error !== null) {
+      console.log("exec error: " + error);
+    }
+  });
   }
 });
 
